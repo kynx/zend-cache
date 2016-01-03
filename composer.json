@@ -16,7 +16,9 @@
         "php": ">=5.5",
         "zendframework/zend-stdlib": "~2.5",
         "zendframework/zend-servicemanager": "dev-develop as 2.7.0",
-        "zendframework/zend-eventmanager": "dev-develop as 2.7.0"
+        "zendframework/zend-eventmanager": "dev-develop as 2.7.0",
+        "psr/cache": "^1.0",
+        "psr/log": "^1.0"
     },
     "require-dev": {
         "zendframework/zend-serializer": "dev-develop as 2.6.0",
