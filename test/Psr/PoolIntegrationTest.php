@@ -7,6 +7,9 @@ use Zend\Cache\Psr\CacheItemPoolAdapter;
 use Zend\Cache\Storage\Adapter\Redis;
 use Zend\Cache\Storage\Adapter\RedisOptions;
 
+/**
+ * @requires extension redis
+ */
 class PoolIntegrationTest extends CachePoolTest
 {
     public function createCachePool()
