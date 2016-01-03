@@ -467,7 +467,7 @@ class CacheItemPoolAdapterTest extends TestCase
 
     public function invalidKeyProvider()
     {
-        return array_map(function($v) { return [$v]; }, $this->getInvalidKeys());
+        return array_map(function ($v) { return [$v]; }, $this->getInvalidKeys());
     }
 
     private function getInvalidKeys()
@@ -516,7 +516,7 @@ class CacheItemPoolAdapterTest extends TestCase
         }
 
         $storage->getCapabilities()
-            ->will(function() use ($capabilities) {
+            ->will(function () use ($capabilities) {
                 return new Capabilities(
                     $this->reveal(),
                     new \stdClass(),
@@ -524,7 +524,7 @@ class CacheItemPoolAdapterTest extends TestCase
                 );
             });
         $storage->getOptions()
-            ->will(function() use ($options) {
+            ->will(function () use ($options) {
                 $adapterOptions = new AdapterOptions($options);
                 $this->getOptions()->willReturn($adapterOptions);
                 return $adapterOptions;
