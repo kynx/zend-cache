@@ -24,20 +24,32 @@ class PatternPluginManager extends AbstractPluginManager
 {
     protected $aliases = [
         'callback' => Pattern\CallbackCache::class,
+        'Callback' => Pattern\CallbackCache::class,
         'capture'  => Pattern\CaptureCache::class,
+        'Capture'  => Pattern\CaptureCache::class,
         'class'    => Pattern\ClassCache::class,
+        'Class'    => Pattern\ClassCache::class,
         'object'   => Pattern\ObjectCache::class,
+        'Object'   => Pattern\ObjectCache::class,
         'output'   => Pattern\OutputCache::class,
+        'Output'   => Pattern\OutputCache::class,
         'page'     => Pattern\PageCache::class,
+        'Page'     => Pattern\PageCache::class,
     ];
 
     protected $factories = [
-        Pattern\CallbackCache::class => InvokableFactory::class,
-        Pattern\CaptureCache::class  => InvokableFactory::class,
-        Pattern\ClassCache::class    => InvokableFactory::class,
-        Pattern\ObjectCache::class   => InvokableFactory::class,
-        Pattern\OutputCache::class   => InvokableFactory::class,
-        Pattern\PageCache::class     => InvokableFactory::class,
+        Pattern\OutputCache::class      => InvokableFactory::class,
+        Pattern\CallbackCache::class    => InvokableFactory::class,
+        Pattern\ObjectCache::class      => InvokableFactory::class,
+        Pattern\PageCache::class        => InvokableFactory::class,
+        Pattern\ClassCache::class       => InvokableFactory::class,
+        Pattern\CaptureCache::class     => InvokableFactory::class,
+        'zendcachepatterncallbackcache' => InvokableFactory::class,
+        'zendcachepatterncapturecache'  => InvokableFactory::class,
+        'zendcachepatternclasscache'    => InvokableFactory::class,
+        'zendcachepatternobjectcache'   => InvokableFactory::class,
+        'zendcachepatternoutputcache'   => InvokableFactory::class,
+        'zendcachepatternpagecache'     => InvokableFactory::class,
     ];
 
     /**

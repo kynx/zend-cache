@@ -9,7 +9,9 @@
 
 namespace Zend\Cache\Storage;
 
+use Zend\Cache\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
+use Zend\ServiceManager\Exception\InvalidServiceException;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 /**
@@ -23,34 +25,86 @@ class PluginManager extends AbstractPluginManager
 {
     protected $aliases = [
         'clearexpiredbyfactor' => Plugin\ClearExpiredByFactor::class,
+        'clearExpiredByFactor' => Plugin\ClearExpiredByFactor::class,
         'ClearExpiredByFactor' => Plugin\ClearExpiredByFactor::class,
         'exceptionhandler'     => Plugin\ExceptionHandler::class,
         'ExceptionHandler'     => Plugin\ExceptionHandler::class,
+        'exceptionHandler'     => Plugin\ExceptionHandler::class,
         'ignoreuserabort'      => Plugin\IgnoreUserAbort::class,
         'IgnoreUserAbort'      => Plugin\IgnoreUserAbort::class,
+        'ignoreUserAbort'      => Plugin\IgnoreUserAbort::class,
         'optimizebyfactor'     => Plugin\OptimizeByFactor::class,
         'OptimizeByFactor'     => Plugin\OptimizeByFactor::class,
+        'optimizeByFactor'     => Plugin\OptimizeByFactor::class,
         'serializer'           => Plugin\Serializer::class,
         'Serializer'           => Plugin\Serializer::class
     ];
 
     protected $factories = [
-        Plugin\ClearExpiredByFactor::class => InvokableFactory::class,
-        Plugin\ExceptionHandler::class     => InvokableFactory::class,
-        Plugin\IgnoreUserAbort::class      => InvokableFactory::class,
-        Plugin\OptimizeByFactor::class     => InvokableFactory::class,
-        Plugin\Serializer::class           => InvokableFactory::class
+        Plugin\ClearExpiredByFactor::class           => InvokableFactory::class,
+        Plugin\OptimizeByFactor::class               => InvokableFactory::class,
+        Plugin\Serializer::class                     => InvokableFactory::class,
+        Plugin\IgnoreUserAbort::class                => InvokableFactory::class,
+        Plugin\ExceptionHandler::class               => InvokableFactory::class,
+        'zendcachestoragepluginclearexpiredbyfactor' => InvokableFactory::class,
+        'zendcachestoragepluginexceptionhandler'     => InvokableFactory::class,
+        'zendcachestoragepluginignoreuserabort'      => InvokableFactory::class,
+        'zendcachestoragepluginoptimizebyfactor'     => InvokableFactory::class,
+        'zendcachestoragepluginserializer'           => InvokableFactory::class,
     ];
 
     /**
-     * Do not share by default
+     * Do not share by default (v3)
      *
      * @var array
      */
     protected $sharedByDefault = false;
 
     /**
+     * Do not share by default (v2)
+     *
+     * @var array
+     */
+    protected $shareByDefault = false;
+
+    /**
      * @var string
      */
     protected $instanceOf = Plugin\PluginInterface::class;
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($instance)
+    {
+        if ($instance instanceof $this->instanceOf) {
+            // we're okay
+            return;
+        }
+
+        throw new Exception\RuntimeException(sprintf(
+            'Plugin of type %s is invalid; must implement %s\Plugin\PluginInterface',
+            (is_object($plugin) ? get_class($plugin) : gettype($plugin)),
+            __NAMESPACE__
+        ));
+    }
+
+    /**
+     * Validate the plugin
+     *
+     * Checks that the plugin loaded is an instance of Plugin\PluginInterface.
+     *
+     * @param  mixed $plugin
+     * @return void
+     * @throws Exception\RuntimeException if invalid
+     */
+    public function validatePlugin($plugin)
+    {
+        try {
+            $this->validate($plugin);
+        } catch (InvalidServiceException $e) {
+            throw new Exception\RuntimeException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }
